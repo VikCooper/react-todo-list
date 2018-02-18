@@ -1,4 +1,4 @@
-import {ADD_TASK, EDIT_TASK, CHECK_TASK, CHECK_ALL_TASK} from '../constants';
+import {ADD_TASK, EDIT_TASK, CHECK_TASK, CHECK_ALL_TASK, DELETE_TASK} from '../constants';
 
 export function addTask(task) {
     return {
@@ -12,6 +12,13 @@ export function editTask(id, newText) {
     return {
         type: EDIT_TASK,
         payload: { id, newText }
+    };
+};
+
+export function onDelete(id) {
+    return {
+        type: DELETE_TASK,
+        payload: { id }
     };
 };
 

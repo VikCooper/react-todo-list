@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import {findDOMNode} from 'react-dom'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types';
-import {editTask, checkTask} from '../../AC';
+import {editTask, checkTask, onDelete} from '../../AC';
 import { CSSTransitionGroup } from 'react-transition-group';
 import {ENTER_KEY, ESCAPE_KEY} from '../../constants';
 import './style.css';
 
 class Task extends Component {
     static propTypes = {
-
+        
     };
 
     state = {
@@ -19,14 +19,18 @@ class Task extends Component {
     };
 
     componentWillReceiveProps({task}) {
+        const node = this.refs.checkbox;
+
         if (task.isChecked) {
+            node.checked = true;
             this.setState({checkedStyle: 'form-input__checked'});
         }
-
+    
         if (!task.isChecked) {
+            node.checked = false;
             this.setState({checkedStyle: ''});
         }
-    }
+    };
 
     componentDidUpdate() {
         if (!this.state.disabled) {
@@ -34,13 +38,13 @@ class Task extends Component {
 		    node.focus();
 		    node.setSelectionRange(node.value.length, node.value.length);
         }
-    }
+    };
 
     render() {
-        const {task} = this.props;
+        const {task, allChecked} = this.props;
         return (
             <div>
-                <input type = 'checkbox' onChange = {this.handleTaskChecked} />
+                <input type = 'checkbox' onChange = {this.handleTaskChecked} ref = 'checkbox' />
                 <label onDoubleClick = {this.enableChange}>
                     <input type = 'text'
                         value = {this.state.text}
@@ -65,7 +69,8 @@ class Task extends Component {
         ev.preventDefault();
         if (this.state.disabled) {
             this.setState({
-                disabled: false
+                disabled: false,
+                checkedStyle: ''
             });
         }
     }
@@ -81,11 +86,10 @@ class Task extends Component {
     handleSubmit = (ev) => {
         const val = this.state.text.trim();
         if (val) {
-            console.log(val);
             this.props.editTask(this.props.task.id, val);
             this.setState({disabled: true});
         } else {
-            // this.props.onDestroy();
+            this.props.onDelete(this.props.task.id);
         }
     }
 
@@ -101,4 +105,4 @@ class Task extends Component {
     };
 };
 
-export default connect(null, {editTask, checkTask})(Task);
+export default connect(null, {editTask, checkTask, onDelete})(Task);

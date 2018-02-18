@@ -1,4 +1,4 @@
-import {ADD_TASK, EDIT_TASK, CHECK_TASK, CHECK_ALL_TASK} from '../constants';
+import {ADD_TASK, EDIT_TASK, DELETE_TASK, CHECK_TASK, CHECK_ALL_TASK} from '../constants';
 import {OrderedMap, Record} from 'immutable';
 import { checkAllCheckboxes, resetAllCheckboxes } from '../helpers';
 
@@ -23,6 +23,9 @@ export default (tasksState = defaultState, action) => {
 
         case EDIT_TASK:
             return tasksState.setIn(['entities', payload.id, 'text'], payload.newText);
+
+        case DELETE_TASK:
+            return tasksState.delete('entities', payload.id);
 
         case CHECK_TASK:
             return tasksState.setIn(['entities', payload.id, 'isChecked'], payload.newCheck);
