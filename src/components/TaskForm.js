@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types';
-import {addTask} from '../AC';
-import {checkAllTask} from '../AC';
+import {addTask, checkAllTask} from '../AC';
 import {ENTER_KEY} from '../constants';
 
 class TaskForm extends Component {

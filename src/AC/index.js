@@ -1,4 +1,5 @@
-import {ADD_TASK, EDIT_TASK, CHECK_TASK, CHECK_ALL_TASK, DELETE_TASK} from '../constants';
+import {ADD_TASK, EDIT_TASK, CHECK_TASK, CHECK_ALL_TASK,
+        DELETE_TASK, SET_FILTER, DELETE_CHECKED_START, DELETE_CHECKED_END} from '../constants';
 
 export function addTask(task) {
     return {
@@ -34,3 +35,23 @@ export function checkAllTask() {
         type: CHECK_ALL_TASK,
     };
 };
+
+export function deleteChecked() {
+    return {
+        type: DELETE_CHECKED_START,
+    };
+};
+
+export function endDelete() {
+    return {
+        type: DELETE_CHECKED_END,
+    };
+};
+
+export function setFilter(filter) {
+    return {
+        type: SET_FILTER,
+        payload: {filter}
+    };
+};
+

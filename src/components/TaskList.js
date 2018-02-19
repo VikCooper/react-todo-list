@@ -10,12 +10,16 @@ class TaskList extends Component {
     };
 
     render() {
-        const tasks = mapToArr(this.props.tasks.entities);
-        const taskElements = tasks.map(task =>
-            <li key= {task.id}>
-                <Task task = {task} />
-            </li>
-        );
+        const {tasks, filter} = this.props;
+        const taskElements = tasks.map(task => {
+          if (filter === task.isChecked || filter === `all`) {
+            return (
+                <li key={task.id}>
+                    <Task task={task} />
+                </li>
+            );
+          } else return null;
+        });
 
         return (
             <ul>
@@ -28,6 +32,7 @@ class TaskList extends Component {
 
 export default connect((state) => {
     return {
-        tasks: state.tasks
+        tasks: mapToArr(state.tasks.entities),
+        filter: state.tasks.filter
     }
 })(TaskList)

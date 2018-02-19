@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {findDOMNode} from 'react-dom'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types';
-import {editTask, checkTask, onDelete} from '../../AC';
+import {editTask, checkTask, onDelete, endDelete} from '../../AC';
 import { CSSTransitionGroup } from 'react-transition-group';
 import {ENTER_KEY, ESCAPE_KEY} from '../../constants';
 import './style.css';
@@ -14,21 +14,30 @@ class Task extends Component {
 
     state = {
         text: this.props.task.text,
-        checkedStyle: '',
-        disabled: true
+        disabled: true,
+        checked: this.props.task.isChecked
     };
 
-    componentWillReceiveProps({task}) {
-        const node = this.refs.checkbox;
-
+    componentWillReceiveProps({task, completedCount, deleteChecked, onDelete, endDelete}) {
         if (task.isChecked) {
-            node.checked = true;
-            this.setState({checkedStyle: 'form-input__checked'});
+            this.setState({
+                checked: task.isChecked,
+            });
         }
     
         if (!task.isChecked) {
-            node.checked = false;
-            this.setState({checkedStyle: ''});
+            this.setState({
+                checked: task.isChecked,
+            });
+        }
+
+        if (deleteChecked) {
+            if (completedCount.indexOf(task.id) >= 0) {
+                if (completedCount.size === 1) {
+                    endDelete();
+                }
+                onDelete(task.id);
+            }
         }
     };
 
@@ -44,7 +53,7 @@ class Task extends Component {
         const {task, allChecked} = this.props;
         return (
             <div>
-                <input type = 'checkbox' onChange = {this.handleTaskChecked} ref = 'checkbox' />
+                <input type = 'checkbox' onChange = {this.handleTaskChecked} checked = {this.state.checked}/>
                 <label onDoubleClick = {this.enableChange}>
                     <input type = 'text'
                         value = {this.state.text}
@@ -52,17 +61,23 @@ class Task extends Component {
                         onChange = {this.handleEdit}
                         onBlur = {this.handleSubmit}
                         onKeyDown = {this.handleKeyDown}
-                        className = {this.state.checkedStyle}
+                        className = {this.state.checked}
                         ref = 'editField'
                     />
                 </label>
+                <button onClick = {this.handleDelete}>X</button>
             </div>
         );
     };
 
     handleTaskChecked = (ev) => {
         const {task, checkTask} = this.props;
-        checkTask(task.id, !task.isChecked);
+        if (task.isChecked) {
+            checkTask(task.id, ``);
+        }
+        if (!task.isChecked) {
+            checkTask(task.id, `form-input__checked`);
+        }
     };
 
     enableChange = (ev) => {
@@ -70,10 +85,10 @@ class Task extends Component {
         if (this.state.disabled) {
             this.setState({
                 disabled: false,
-                checkedStyle: ''
+                checked: ''
             });
         }
-    }
+    };
 
     handleEdit = (ev) => {
         ev.preventDefault();
@@ -89,9 +104,16 @@ class Task extends Component {
             this.props.editTask(this.props.task.id, val);
             this.setState({disabled: true});
         } else {
-            this.props.onDelete(this.props.task.id);
+            this.handleDelete();
         }
-    }
+    };
+
+    handleDelete = (ev) => {
+        if (ev) ev.preventDefault();
+        const {task, editTask, onDelete} = this.props;
+        editTask(task.id, null);
+        onDelete(task.id);
+    };
 
     handleKeyDown = (ev) => {
         if (ev.which === ESCAPE_KEY) {
@@ -105,4 +127,9 @@ class Task extends Component {
     };
 };
 
-export default connect(null, {editTask, checkTask, onDelete})(Task);
+export default connect((state) => {
+    return {
+        completedCount: state.tasks.completedCount,
+        deleteChecked: state.tasks.deleteChecked
+    }
+}, {editTask, checkTask, onDelete, endDelete})(Task);

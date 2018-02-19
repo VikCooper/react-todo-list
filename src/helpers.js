@@ -1,27 +1,32 @@
-import {OrderedMap, Map} from 'immutable'
+import {OrderedMap, Map, List} from 'immutable';
 
 export function arrToMap(arr, DataRecord = Map) {
     return arr.reduce((acc, item) =>
         acc.set(item.id, new DataRecord(item))
     , new OrderedMap({}))
-}
+};
 
 export function mapToArr(obj) {
     return obj.valueSeq().toArray()
-}
+};
 
 export function checkAllCheckboxes(state) {
-    let newState = state;
-    for (let id of state.entities) {
-        newState = newState.setIn(['entities', id[0], 'isChecked'], true);
-    }
-    return newState;
-}
+    const newCompleted = [];
+
+    let newState = state.update('entities', entities => 
+        entities.map(entity => {
+            if (entity.isChecked !== 'form-input__checked') {
+                newCompleted.push(entity.id);
+                return entity.set('isChecked', 'form-input__checked');
+            }
+        }));
+
+    return newState.update('completedCount', completedCount => completedCount.concat(newCompleted));
+};
 
 export function resetAllCheckboxes(state) {
-    let newState = state;
-    for (let id of state.entities) {
-        newState = newState.setIn(['entities', id[0], 'isChecked'], false);
-    }
-    return newState;
-}
+   let newState = state.update('entities', entities => 
+        entities.map(entity => entity.set('isChecked', '')));
+
+    return newState.set('completedCount', new List([]));
+};
