@@ -9,6 +9,3 @@ export const CHECK_TASK = `CHECK_TASK`;
 export const CHECK_ALL_TASK = `CHECK_ALL_TASK`;
 
 export const SET_FILTER = `SET_FILTER`;
-
-export const DELETE_CHECKED_START = `DELETE_CHECKED_START`;
-export const DELETE_CHECKED_END = `DELETE_CHECKED_END`;

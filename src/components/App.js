@@ -13,7 +13,7 @@ class App extends Component {
                 <div>
                     <h1>todos</h1>
                     <TaskForm />
-                    <Route path = "" component={TaskList}/>
+                    <Route path = "" component = {TaskList}/>
                     <Filters />
                 </div>
             </ConnectedRouter>

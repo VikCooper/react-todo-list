@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types';
-import {setFilter, deleteChecked} from '../AC';
+import {setFilter, onDelete} from '../AC';
 import {NavLink, Route} from 'react-router-dom';
 import {mapToArr} from '../helpers';
 
@@ -13,6 +13,13 @@ class Filters extends Component {
     render() {
         const {tasks} = this.props;
         const tasksLength = mapToArr(tasks.entities).length;
+        let deleteTasks = null;
+
+        if (tasks.completedCount.size) {
+            deleteTasks = (
+                <button onClick = {this.deleteChecked}>Clear completed</button>
+            );
+        }
 
         return (
             <React.Fragment>
@@ -36,7 +43,7 @@ class Filters extends Component {
                         </NavLink>
                     </li>
                 </ul>
-                <button onClick = {this.props.deleteChecked}>Clear completed</button>
+                {deleteTasks}
             </React.Fragment>
         );
     };
@@ -56,10 +63,17 @@ class Filters extends Component {
         this.props.setFilter(`form-input__checked`);
     };
 
+    deleteChecked = (ev) => {
+        ev.preventDefault();
+        const {tasks, onDelete} = this.props;
+
+        tasks.completedCount.forEach((id) => onDelete(id));
+    };
+
 };
 
 export default connect((state) => {
     return {
         tasks: state.tasks
     }
-}, {setFilter, deleteChecked})(Filters);
+}, {setFilter, onDelete})(Filters);

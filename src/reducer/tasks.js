@@ -1,5 +1,5 @@
 import {ADD_TASK, EDIT_TASK, DELETE_TASK, CHECK_TASK, CHECK_ALL_TASK,
-    SET_FILTER, DELETE_CHECKED_START, DELETE_CHECKED_END} from '../constants';
+    SET_FILTER} from '../constants';
 import {OrderedMap, Record, List} from 'immutable';
 import { checkAllCheckboxes, resetAllCheckboxes } from '../helpers';
 
@@ -55,12 +55,6 @@ export default (tasksState = defaultState, action) => {
 
         case SET_FILTER:
             return tasksState.set('filter', payload.filter);
-
-        case DELETE_CHECKED_START:
-            return tasksState.set('deleteChecked', true);
-
-        case DELETE_CHECKED_END:
-            return tasksState.set('deleteChecked', false);
     };
 
     return tasksState;

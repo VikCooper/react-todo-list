@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {findDOMNode} from 'react-dom'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types';
-import {editTask, checkTask, onDelete, endDelete} from '../../AC';
+import {editTask, checkTask, onDelete} from '../../AC';
 import { CSSTransitionGroup } from 'react-transition-group';
 import {ENTER_KEY, ESCAPE_KEY} from '../../constants';
 import './style.css';
@@ -18,7 +18,7 @@ class Task extends Component {
         checked: this.props.task.isChecked
     };
 
-    componentWillReceiveProps({task, completedCount, deleteChecked, onDelete, endDelete}) {
+    componentWillReceiveProps({task, completedCount, onDelete}) {
         if (task.isChecked) {
             this.setState({
                 checked: task.isChecked,
@@ -29,15 +29,6 @@ class Task extends Component {
             this.setState({
                 checked: task.isChecked,
             });
-        }
-
-        if (deleteChecked) {
-            if (completedCount.indexOf(task.id) >= 0) {
-                if (completedCount.size === 1) {
-                    endDelete();
-                }
-                onDelete(task.id);
-            }
         }
     };
 
@@ -51,6 +42,7 @@ class Task extends Component {
 
     render() {
         const {task, allChecked} = this.props;
+
         return (
             <div>
                 <input type = 'checkbox' onChange = {this.handleTaskChecked} checked = {this.state.checked}/>
@@ -129,7 +121,6 @@ class Task extends Component {
 
 export default connect((state) => {
     return {
-        completedCount: state.tasks.completedCount,
-        deleteChecked: state.tasks.deleteChecked
+        completedCount: state.tasks.completedCount
     }
-}, {editTask, checkTask, onDelete, endDelete})(Task);
+}, {editTask, checkTask, onDelete})(Task);
