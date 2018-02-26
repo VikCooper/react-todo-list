@@ -6,7 +6,8 @@ import Task from './Task'
 
 class TaskList extends Component {
     static propTypes = {
-
+        tasks: PropTypes.array.isRequired,
+        filter: PropTypes.string.isRequired
     };
 
     render() {

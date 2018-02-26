@@ -5,10 +5,6 @@ import {addTask, checkAllTask} from '../AC';
 import {ENTER_KEY} from '../constants';
 
 class TaskForm extends Component {
-    static propTypes = {
-
-    };
-
     state = {
         text: ``
     };

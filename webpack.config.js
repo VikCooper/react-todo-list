@@ -1,4 +1,4 @@
-var path = require('path')
+var path = require('path');
 
 module.exports = {
     devtool: 'source-map',
@@ -9,6 +9,9 @@ module.exports = {
         path: path.join(__dirname, 'build'),
         filename: 'bundle.js',
         publicPath: '/static/'
+    },
+    devServer: {
+        historyApiFallback: true
     },
     module: {
         loaders: [
@@ -23,4 +26,4 @@ module.exports = {
             }
         ]
     }
-}
+};

@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types';
 import {setFilter, onDelete} from '../AC';
-import {NavLink, Route} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import {mapToArr} from '../helpers';
+import TaskList from './TaskList';
 
 class Filters extends Component {
     static propTypes = {
-
+        tasks: PropTypes.object.isRequired
     };
 
     render() {
@@ -22,29 +23,29 @@ class Filters extends Component {
         }
 
         return (
-            <React.Fragment>
+            <footer>
                 <span>
                     {tasksLength - tasks.completedCount.size} items left
                 </span>
                 <ul>
                     <li onClick = {this.setAll}>
-                        <NavLink to = {``} activeStyle = {{color: 'red'}}>
+                        <NavLink exact to = {"/"} activeStyle = {{color: 'red'}}>
                             All
                         </NavLink>
                     </li>
                     <li onClick = {this.setActive}>
-                        <NavLink to = {`/active`} activeStyle = {{color: 'red'}}>
+                        <NavLink to = {"/active"} activeStyle = {{color: 'red'}}>
                             Active
                         </NavLink>
                     </li>
                     <li onClick = {this.setCompleted}>
-                        <NavLink to = {`/completed`} activeStyle = {{color: 'red'}}>
+                        <NavLink to = {"/completed"} activeStyle = {{color: 'red'}}>
                             Completed
                         </NavLink>
                     </li>
                 </ul>
                 {deleteTasks}
-            </React.Fragment>
+            </footer>
         );
     };
 

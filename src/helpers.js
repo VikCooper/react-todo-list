@@ -18,7 +18,7 @@ export function checkAllCheckboxes(state) {
             if (entity.isChecked !== 'form-input__checked') {
                 newCompleted.push(entity.id);
                 return entity.set('isChecked', 'form-input__checked');
-            }
+            } else return entity;
         }));
 
     return newState.update('completedCount', completedCount => completedCount.concat(newCompleted));

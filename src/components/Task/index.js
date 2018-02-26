@@ -9,7 +9,8 @@ import './style.css';
 
 class Task extends Component {
     static propTypes = {
-        
+        task: PropTypes.object.isRequired,
+        completedCount: PropTypes.object.isRequired
     };
 
     state = {

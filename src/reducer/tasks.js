@@ -12,8 +12,7 @@ const TaskRecord = Record({
 const ReducerState = Record({
     entities: new OrderedMap({}),
     filter: 'all',
-    completedCount: new List([]),
-    deleteChecked: false
+    completedCount: new List([])
 });
 
 const defaultState = new ReducerState();
