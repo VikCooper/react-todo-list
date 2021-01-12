@@ -4,20 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run dev",
-    "dev": "webpack-dev-server --hot --inline",
+    "start": "webpack serve",
+    "dev": "webpack serve --mode development --hot --inline",
     "build": "webpack"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/VikCooper/react-todo-list"
+    "url": "git+https://github.com/bondarv/react-todo-list"
   },
   "author": "",
   "license": "",
   "bugs": {
-    "url": "https://github.com/VikCooper/react-todo-list"
+    "url": "https://github.com/bondarv/react-todo-list"
   },
-  "homepage": "https://github.com/VikCooper/react-todo-list",
+  "homepage": "https://github.com/bondarv/react-todo-list",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
@@ -27,8 +27,9 @@
     "babel-preset-stage-0": "^6.24.1",
     "css-loader": "^0.28.8",
     "style-loader": "^0.19.1",
-    "webpack": "^2.0.0",
-    "webpack-dev-server": "^2.0.0"
+    "webpack": "^5.13.0",
+    "webpack-cli": "^4.3.1",
+    "webpack-dev-server": "^3.11.1"
   },
   "dependencies": {
     "history": "^4.7.2",

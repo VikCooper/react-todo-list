@@ -14,15 +14,15 @@ module.exports = {
         historyApiFallback: true
     },
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.js/,
-                loaders: ['babel-loader'],
+                use: ['babel-loader'],
                 include: path.join(__dirname, 'src')
             },
             {
                 test: /\.css/,
-                loaders: ['style-loader', 'css-loader'],
+                use: ['style-loader', 'css-loader'],
             }
         ]
     }
